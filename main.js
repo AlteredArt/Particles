@@ -76,8 +76,10 @@ class Particle {
 // HANDLE PARTICLES
 function handleParticles(){
     for(let i = 0; i < particlesArray.length; i++){
+
         particlesArray[i].update();
         particlesArray[i].draw();
+        
         for (let j = i; j < particlesArray.length; j++){
             const dx = particlesArray[i].x - particlesArray[j].x;
             const dy = particlesArray[i].y - particlesArray[j].y;
@@ -94,11 +96,12 @@ function handleParticles(){
                 ctx.closePath();
             }
         }
+
+        // SPLICE PARTICLE FROM PARTICLES ARRAY IF THE SIZE IS TO SMALL
         if(particlesArray[i].size <= 0.3){
             particlesArray.splice(i, 1);
             i--;
         }
-
     
     }
 }
@@ -110,9 +113,11 @@ function animate(){
     handleParticles();
     // CHANGE HUE
     hue += 2;
-    // CALL ANIMATE
+    // CALL ANIMATE LOOP
     requestAnimationFrame(animate);
-
 }
 
+// CALL ANIMATE LOOP
 animate();
+
+// END
