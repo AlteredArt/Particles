@@ -76,10 +76,11 @@ class Particle {
 // HANDLE PARTICLES
 function handleParticles(){
     for(let i = 0; i < particlesArray.length; i++){
-
+        // CALL UPDATE FOR SINGLE PARTICLE
         particlesArray[i].update();
+        // CALL DRAW FOR SINGLE PARTICLE
         particlesArray[i].draw();
-        
+        // LOOP THE PARTICLES ARRAY 
         for (let j = i; j < particlesArray.length; j++){
             const dx = particlesArray[i].x - particlesArray[j].x;
             const dy = particlesArray[i].y - particlesArray[j].y;
@@ -87,22 +88,19 @@ function handleParticles(){
             if ( distance < 100 ){  
                 ctx.beginPath();
                 ctx.strokeStyle = particlesArray[i].color;
-                // ctx.lineWidth = particlesArray[i].size / 10;
                 ctx.lineWidth = 0.2;
-
+                // UPDATE MOUSE POSITION
                 ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
                 ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
                 ctx.stroke();
                 ctx.closePath();
             }
         }
-
         // SPLICE PARTICLE FROM PARTICLES ARRAY IF THE SIZE IS TO SMALL
         if(particlesArray[i].size <= 0.3){
             particlesArray.splice(i, 1);
             i--;
         }
-    
     }
 }
 
