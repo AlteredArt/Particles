@@ -1,10 +1,11 @@
 <!-- PARTICLES BACKGROUND-->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Particles BACKGROUND</title>
+    <title>Particles Background</title>
     <!-- STYLE -->
     <style>
         #canvas {
@@ -15,138 +16,246 @@
             top: 0;
             left: 0;
         }
+
+        .settings-container {
+            background-color: white;
+            width: 110px;
+            padding: 1rem;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px 0 80px 0;
+        }
+        .colors {
+            cursor: pointer;
+            /* color: black; */
+            /* padding: 1rem; */
+            /* font-size: 1.2rem; */
+            /* font-weight: 400; */
+            background: none;
+        }
+        .settings-icon {
+            width: 100px;
+        }
+
+        /* DROPDOWN BUTTON */
+        .dropbtn {
+        /* background-color: white; */
+        /* color: white; */
+        /* padding: 16px; */
+        /* font-size: 16px; */
+        /* border: none; */
+        cursor: pointer;
+        }
+
+        /* Dropdown button on hover & focus */
+        .dropbtn:hover, .dropbtn:focus {
+        background-color: #2980B9;
+        }
+
+        /* The container <div> - needed to position the dropdown content */
+        .dropdown {
+            padding-top: 20px;
+        position: relative;
+        display: inline-block;
+        }
+
+        /* Dropdown Content (Hidden by Default) */
+        .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        }
+
+        /* Change color of dropdown links on hover */
+        .dropdown-content a:hover {background-color: #ddd;}
+
+        /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+        .show {display:block;}
     </style>
     <!-- STYLE END-->
-
 </head>
+
 <body>
+    
     <!-- CANVAS -->
     <canvas id="canvas"></canvas>
+    <div class="settings-container dropdown">
+        <a onclick="myFunction()" class="dropbtn"><img src="./gear.png" class="settings-icon" alt="settings-icon" ></a>
+        <div id="myDropdown" class="dropdown-content">
+            <a href="#">Link 1</a>
+            <a href="#">Link 2</a>
+            <a href="#">Link 3</a>
+        </div>
+    </div>
+
+
+    <!-- CANVAS END -->
+
     <!-- SCRIPT -->
-    <!-- <script src="main.js"></script> -->
-
     <script>
-        // PARTICLES WITH JS
+        // SETTING UP THE CANVAS
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        // SETTING CANVAS WIDTH & HEIGHT
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        // PARTICLE ARRAY
+        const particlesArray = [];
+        // HUE BASE
+        let hue = 0;
 
-// SETTING UP THE CANVAS
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-// CANVAS WIDTH & HEIGHT
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-// PARTICLE ARRAY
-const particlesArray = [];
-// HUE
-let hue = 0;
+        // RESIZING WINDOW - WINDOW EVENT LISTENER FOR SCREEN RESIZE
+        window.addEventListener('resize', function (){
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        })
 
-// RESIZING WINDOW
-window.addEventListener('resize', function (){
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
- 
-})
+        // MOUSE COORDINATES - SETTING UP THE MOUSE VARIABLE TO CONTAIN THE COORDINATES OF X & Y
+        const mouse = { x: undefined, y: undefined }
 
-// MOUSE COORDINATES
-const mouse = { x: undefined, y: undefined }
+        // CLICK EVENT LISTENER - ON CLICK
+        canvas.addEventListener('click' , function(e) {
+            // ADD COORDINATES TO MOUSE POSITION ON CLICK
+            mouse.x = e.x;
+            mouse.y = e.y;
+            // LOOP TO CREATE PARTICLES
+            for(let i = 0; i < 1; i ++){
+                particlesArray.push(new Particle)
+                console.log(particlesArray.length)
 
-// CLICK EVENT LISTENER
-canvas.addEventListener('click' , function(e) {
-    mouse.x = e.x;
-    mouse.y = e.y;
-    // CALL NEW PARTICLES
-    for(let i = 0; i < 10; i ++){
-        particlesArray.push(new Particle)
-    }
-});
+            }
+        });
 
-// MOVE EVENT LISTENER
-canvas.addEventListener('mousemove', function(e){
-    mouse.x = e.x;
-    mouse.y = e.y;
-    // CALL NEW PARTICLES
-    for(let i = 0; i < 5; i ++){
-        particlesArray.push(new Particle)
-    }
-});
+        // MOVE EVENT LISTENER - ON MOUSE MOVE
+        canvas.addEventListener('mousemove', function(e){
+            // ADD COORDINATES TO MOUSE POSITION WHILE MOVING
+            mouse.x = e.x;
+            mouse.y = e.y;
+            // CALL NEW PARTICLES
+            for(let i = 0; i < 10; i ++){
+                particlesArray.push(new Particle)
+                // console.log(particlesArray.length)
 
-// PARTICLE CLASS
-class Particle {
-    // CONSTRUCTOR 
-    constructor(){
-        this.x = mouse.x;
-        this.y = mouse.y;
+            }
+        });
 
-        // SIZE, SPEED, COLOR OF PARTICLES
-        this.size = Math.random() * 15 + 1;
-        this.speedX = Math.random() * 3 - 1.5;
-        this.speedY = Math.random() * 3 - 1.5;
-        this.color = 'hsl(' + hue + ', 100%, 50%)';
-    }
+        /* When the user clicks on the button,
+        toggle between hiding and showing the dropdown content */
+        function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+        }
 
-    // UPDATE
-    update(){
-        this.x += this.speedX;
-        this.y += this.speedY;
-        // CHANGE SIZE OF PARTICLE
-        if(this.size > 0.2 )  this.size -= 0.1;
-    }
-
-    // DRAW
-    draw(){
-        ctx.fillStyle = this.color;
-        // ctx.lineWidth = 15;
-        ctx.beginPath();
-        ctx.arc(this.x,this.y,this.size, 0, Math.PI * 2);
-        ctx.fill();
-    }
-};
-
-// HANDLE PARTICLES
-function handleParticles(){
-    for(let i = 0; i < particlesArray.length; i++){
-        // CALL UPDATE FOR SINGLE PARTICLE
-        particlesArray[i].update();
-        // CALL DRAW FOR SINGLE PARTICLE
-        particlesArray[i].draw();
-        // LOOP THE PARTICLES ARRAY 
-        for (let j = i; j < particlesArray.length; j++){
-            const dx = particlesArray[i].x - particlesArray[j].x;
-            const dy = particlesArray[i].y - particlesArray[j].y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            if ( distance < 100 ){  
-                ctx.beginPath();
-                ctx.strokeStyle = particlesArray[i].color;
-                ctx.lineWidth = 0.2;
-                // UPDATE MOUSE POSITION
-                ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
-                ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
-                ctx.stroke();
-                ctx.closePath();
+        // Close the dropdown menu if the user clicks outside of it
+        window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
             }
         }
-        // SPLICE PARTICLE FROM PARTICLES ARRAY IF THE SIZE IS TO SMALL
-        if(particlesArray[i].size <= 0.3){
-            particlesArray.splice(i, 1);
-            i--;
         }
-    }
-}
 
-// ANIMATE LOOP
-function animate(){
-    ctx.clearRect(0,0, canvas.width, canvas.height);
-    // CALL HANDLE PARTICLES
-    handleParticles();
-    // CHANGE HUE
-    hue += 2;
-    // CALL ANIMATE LOOP
-    requestAnimationFrame(animate);
-}
 
-// CALL ANIMATE LOOP
-animate();
+        // PARTICLE CLASS
+        class Particle {
+            // CONSTRUCTOR 
+            constructor(){
+                // SETS PARTICLE TO MOUSE COORDINATES
+                this.x = mouse.x;
+                this.y = mouse.y;
 
-// END
-    </script>
-</body>
+                // PARTICLES SIZE, SPEED, & COLOR
+                this.size = Math.random() * 10 + 1;
+                this.speedX = Math.random() * 3 - 1.5;
+                this.speedY = Math.random() * 3 - 1.5;
+                this.color = 'hsl(' + hue + ', 100%, 50%)';
+            }
+
+            // UPDATE
+            update(){
+                // UPDATE THE PARTICLES IN RELATION TO THE SPEED
+                this.x += this.speedX;
+                this.y += this.speedY;
+                // DESTROY PRODUCT IF UNDER A CERTAIN
+                if(this.size > 10.2 )  this.size -= 0.1; // size > 0.2
+            }
+
+            // DRAWING THE PARTICLE
+            draw(){
+                ctx.fillStyle = this.color;
+                // ctx.lineWidth = 15;
+                ctx.beginPath();
+                ctx.arc(this.x,this.y,this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        };
+
+        // HANDLE PARTICLES FUNCTION
+        function handleParticles(){
+            for(let i = 0; i < particlesArray.length; i++){
+
+                // CALL UPDATE FOR SINGLE PARTICLE
+                particlesArray[i].update();
+                // CALL DRAW FOR SINGLE PARTICLE
+                particlesArray[i].draw();
+                // LOOP THE PARTICLES ARRAY 
+                // for (let j = i; j < particlesArray.length; j++){
+                //     const dx = particlesArray[i].x - particlesArray[j].x;
+                //     const dy = particlesArray[i].y - particlesArray[j].y;
+                //     const distance = Math.sqrt(dx * dx + dy * dy);
+                //     if ( distance < 100 ){  
+                //         ctx.beginPath();
+                //         ctx.strokeStyle = particlesArray[i].color;
+                //         ctx.lineWidth = 0.2;
+                //         // UPDATE MOUSE POSITION
+                //         ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                //         ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                //         ctx.stroke();
+                //         ctx.closePath();
+                //     }
+                // }
+                // SPLICE PARTICLE FROM PARTICLES ARRAY IF THE SIZE IS TO SMALL
+                // if(particlesArray[i].size <= 0.3){
+                //     particlesArray.splice(i, 1);
+                //     i--;
+                // }
+            }
+        }
+
+        // ANIMATE LOOP
+        function animate(){
+            // CLEARING THE CANVAS
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+            // CALL HANDLE PARTICLES
+            handleParticles();
+            // CHANGE HUE SATURATE HUE FOR CHANGING COLORS
+            hue += 2;
+            // CALL ANIMATE LOOP
+            requestAnimationFrame(animate);
+        }
+
+        // CALL ANIMATE FUNCTION
+        animate();
+
+        // END
+        </script>
+        <!-- SCRIPT -->
+    </body>
 </html>
