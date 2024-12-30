@@ -10,7 +10,7 @@
 .settings-container {
     background-color: white;
     width: 110px;
-    padding: 1rem;
+    padding: 0.5rem 0 0.5rem 1.5rem;
     position: relative;
     display: flex;
     justify-content: center;
